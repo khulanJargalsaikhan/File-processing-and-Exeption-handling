@@ -11,16 +11,9 @@ public class Application {
 		
 		File file = new File("myfilef.txt");
 		
-		//reads entire file
-		FileReader fileReader = null;
-		//reads file line by line
-		BufferedReader bufferedReader = null;
-		
-		
 		// Using file reader instead of scanner
-		try {
-			fileReader = new FileReader(file);
-			bufferedReader = new BufferedReader(fileReader);
+		// After Java 1.7 there is a better way to handle NullPointerException that is called TRY WITH RESOURCES with Auto Closable
+		try (FileReader fileReader = new FileReader(file); BufferedReader bufferedReader = new BufferedReader(fileReader); ){
 			
 			String line = bufferedReader.readLine();
 			
@@ -35,23 +28,7 @@ public class Application {
 		} catch (IOException e) {
 			//e.printStackTrace();
 			System.out.println("There is a problem reading the file" + file.getName());
-		} finally {   // this block will always run
-			// this is the area that all resources should be closed that prevents from memory leak
-			try {
-				// instead of catching NullPointerException, this is a better way that is used before Java 1.7. 
-				// After java 1.7 there is also a better way that is called TRY WITH RESOURCES
-				if (bufferedReader != null) {
-					bufferedReader.close();
-				}
-				if(fileReader != null) {
-					fileReader.close();
-				}
-			} catch (IOException e) {
-				System.out.println("Unable to close file " + file.getName());
-				//e.printStackTrace();
-			} 
 		}
-		
 		
 		
 		

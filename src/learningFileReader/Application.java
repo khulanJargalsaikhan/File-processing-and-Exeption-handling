@@ -36,15 +36,20 @@ public class Application {
 			//e.printStackTrace();
 			System.out.println("There is a problem reading the file" + file.getName());
 		} finally {   // this block will always run
-			// this is the area that all resources are closed
+			// this is the area that all resources should be closed that prevents from memory leak
 			try {
-				bufferedReader.close();
+				// instead of catching NullPointerException, this is a better way that is used before Java 1.7. 
+				// After java 1.7 there is also a better way that is called TRY WITH RESOURCES
+				if (bufferedReader != null) {
+					bufferedReader.close();
+				}
+				if(fileReader != null) {
+					fileReader.close();
+				}
 			} catch (IOException e) {
 				System.out.println("Unable to close file " + file.getName());
 				//e.printStackTrace();
-			} catch (NullPointerException ex) {   //typically we should not catch null pointer exception, this is bad practice. There is a better way.
-				System.out.println("The file was probably never opened " + ex);
-			}
+			} 
 		}
 		
 		
